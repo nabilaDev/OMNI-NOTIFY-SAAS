@@ -28,7 +28,5 @@ const UserSchema: Schema = new Schema({
   }
 });
 
-// Indexation pour optimiser les performances de recherche par email
-UserSchema.index({ email: 1 });
 
 export const User = model<IUser>('User', UserSchema);

@@ -25,12 +25,17 @@ const io = new Server(httpServer, {
 // Middlewares
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Connexion MongoDB 7.x
 
 // ...
 connectDatabase();
 // Routes publiques
+app.use((req, res, next) => {
+    console.log("Données brutes reçues :", req.body);
+  console.log(`🔍 Requête entrante : ${req.method} ${req.url}`);
+  next();
+});
 app.use('/api/auth', authRoutes);
 
 // Routes protégées

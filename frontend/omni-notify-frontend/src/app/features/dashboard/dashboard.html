@@ -1,0 +1,45 @@
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="dot"></span>
+      <h2>Omni-Notify</h2>
+    </div>
+    <nav>
+      <a href="#" class="active"><i class="icon">📊</i> Dashboard</a>
+      <a href="#"><i class="icon">🔔</i> Notifications</a>
+      <a href="#"><i class="icon">📜</i> Historique</a>
+      <a href="#"><i class="icon">⚙️</i> Paramètres</a>
+    </nav>
+    <div class="user-footer">
+      <p>Joury Yazidi</p>
+      <button (click)="logout()" class="btn-logout">Déconnexion</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <h3>Tableau de Bord</h3>
+      <div class="status-badge">Serveur: <span class="online">En ligne</span></div>
+    </header>
+
+    <div class="content-grid">
+      <div class="stat-card">
+        <h4>Alertes du jour</h4>
+        <div class="value">12</div>
+      </div>
+
+      <div class="feed-card">
+        <h4>Flux de notifications en temps réel</h4>
+        <div class="notification-list">
+          <div class="notif-item unread">
+            <div class="notif-icon">⚠️</div>
+            <div class="notif-text">
+              <p>Nouvelle tentative de connexion suspecte</p>
+              <span>Il y a 5 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
