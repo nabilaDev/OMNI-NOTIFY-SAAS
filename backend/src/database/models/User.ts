@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, model } from 'mongoose';
 
 export interface IUser extends Document {
   email: string;
@@ -31,4 +31,4 @@ const UserSchema: Schema = new Schema({
 // Indexation pour optimiser les performances de recherche par email
 UserSchema.index({ email: 1 });
 
-export default mongoose.model<IUser>('User', UserSchema);
+export const User = model<IUser>('User', UserSchema);

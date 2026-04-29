@@ -1,15 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
-export interface INotification extends Document {
-  userId: mongoose.Types.ObjectId;
-  channel: 'websocket' | 'rest';
-  message: string;
-  status: 'pending' | 'delivered' | 'failed';
-  createdAt: Date;
-  deliveredAt?: Date;
-}
-
-const NotificationSchema: Schema = new Schema({
+const NotificationSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   channel: { type: String, enum: ['websocket', 'rest'], required: true },
   message: { type: String, required: true },
@@ -18,4 +10,4 @@ const NotificationSchema: Schema = new Schema({
   deliveredAt: { type: Date }
 });
 
-export default mongoose.model<INotification>('Notification', NotificationSchema);
+export const Notification = model('Notification', NotificationSchema);

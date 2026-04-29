@@ -4,6 +4,9 @@ import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './auth/auth.routes.js';
+import notificationRoutes from './notifications/notification.routes.js';
+import { protect } from './auth/auth.middleware.js';
 import { connectDatabase } from './database/connection.js';
 // Chargement des variables d'environnement
 dotenv.config();
@@ -27,7 +30,11 @@ app.use(express.json());
 
 // ...
 connectDatabase();
+// Routes publiques
+app.use('/api/auth', authRoutes);
 
+// Routes protégées
+app.use('/api/notifications', protect, notificationRoutes);
 // Route de santé (Healthcheck)
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', latency: '< 200ms target' });
@@ -35,13 +42,17 @@ app.get('/health', (req, res) => {
 
 // Gestion des WebSockets
 io.on('connection', (socket) => {
-  console.log('⚡ New client connected:', socket.id);
+  // Le client enverra son ID lors de la connexion
+  const userId = socket.handshake.query.userId;
+  if (userId) {
+    socket.join(userId);
+    console.log(`👤 User ${userId} joined their private room`);
+  }
 
   socket.on('disconnect', () => {
     console.log('🔌 Client disconnected');
   });
 });
-
 // Démarrage du serveur Node.js 20
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
