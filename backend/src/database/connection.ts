@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/omni-notify';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://omni-db:27017/omni-notify';
 
 /**
  * Gère la connexion à MongoDB 7.x

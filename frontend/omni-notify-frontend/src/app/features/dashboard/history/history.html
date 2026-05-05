@@ -1,0 +1,52 @@
+<div class="history-page">
+  <div class="page-header">
+    <h4>📜 Historique des Activités</h4>
+    <button (click)="loadHistory()" class="btn-refresh">Actualiser</button>
+  </div>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      placeholder="Rechercher un message..." 
+      [ngModel]="searchTerm()" 
+      (ngModelChange)="searchTerm.set($event)"
+      class="search-input">
+
+  </div>
+
+  @if (isLoading()) {
+    <div class="loader">Chargement des archives...</div>
+  } @else {
+    <div class="history-table-container">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Date & Heure</th>
+            <th>Message</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- On utilise filteredHistory() au lieu de historyItems() -->
+          @for (item of filteredHistory(); track (item._id || item.id)) {
+            <tr>
+              <td>{{ item.createdAt | date:'short' }}</td>
+              <td>{{ item.message }}</td>
+          
+              <td>
+                <span [class.status-read]="item.status === 'read'" [class.status-unread]="item.status !== 'read'">
+                  {{ item.status === 'read' ? '✓ Lu' : 'Non lu' }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-row">Aucun résultat pour vos filtres.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: omni-db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=omni-notify
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: omni-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/omni-notify
+      - JWT_SECRET=${JWT_SECRET:-votre_secret_super_securise_ici}
+      - FRONTEND_URL=http://localhost:4200
+      - NODE_ENV=development
+      - PORT=3000
+
+  frontend:
+    build: 
+      context: ./frontend/omni-notify-frontend
+    container_name: omni-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    environment:
+      - NG_APP_API_URL=http://localhost:3000
+
+volumes:
+  mongo_data:

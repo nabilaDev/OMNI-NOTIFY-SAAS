@@ -1,6 +1,6 @@
 // backend/src/auth/auth.controller.ts
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs'; 
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../database/models/User.js';
 
@@ -21,16 +21,24 @@ export const register = async (req: Request, res: Response) => {
 };
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log('🚀 Login attempt for email:', email); // Log pour le debug
   const user = await User.findOne({ email });
-
+    console.log('User found:', user); // Debug: Affiche l'utilisateur trouvé
   if (user && await bcrypt.compare(password, user.passwordHash)) {
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET as string,
       { expiresIn: '8h' }
     );
-    res.json({ token });
+   
+    // On renvoie le token ET l'utilisateur, mais on force l'ID en String
+    // C'est plus sûr pour la sérialisation JSON
+    res.json({ 
+      token,
+      user: {
+        id: user._id.toString(), // 👈 Conversion explicite ici
+        email: user.email
+      }
+    });
   } else {
     res.status(401).json({ error: 'Invalid credentials' });
   }

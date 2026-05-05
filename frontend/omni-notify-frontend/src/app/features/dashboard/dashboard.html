@@ -1,45 +1,107 @@
 <div class="dashboard-layout">
-  <aside class="sidebar">
-    <div class="logo">
-      <span class="dot"></span>
-      <h2>Omni-Notify</h2>
+  <!-- Barre latérale (Sidebar) avec rôles d'accessibilité -->
+  <aside class="sidebar" role="complementary">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="dot" aria-hidden="true"></span>
+        <h2>Omni-Notify</h2>
+      </div>
     </div>
-    <nav>
-      <a href="#" class="active"><i class="icon">📊</i> Dashboard</a>
-      <a href="#"><i class="icon">🔔</i> Notifications</a>
-      <a href="#"><i class="icon">📜</i> Historique</a>
-      <a href="#"><i class="icon">⚙️</i> Paramètres</a>
+    
+    <nav class="nav-menu" aria-label="Navigation principale">
+      <a routerLink="/dashboard" 
+         class="nav-link"
+         routerLinkActive="active" 
+         [routerLinkActiveOptions]="{exact: true}">
+        <span class="icon" aria-hidden="true">📊</span> Dashboard
+      </a>
+
+      <a routerLink="/dashboard/notifications" class="nav-link" routerLinkActive="active">
+        <span class="icon" aria-hidden="true">🔔</span> Notifications
+      </a>
+
+      <a routerLink="/dashboard/historique" class="nav-link" routerLinkActive="active">
+        <span class="icon" aria-hidden="true">📜</span> Historique
+      </a>
+
+      <a routerLink="/dashboard/parametres" class="nav-link" routerLinkActive="active">
+        <span class="icon" aria-hidden="true">⚙️</span> Paramètres
+      </a>
     </nav>
+
+    <!-- Pied de page utilisateur -->
     <div class="user-footer">
-      <p>Joury Yazidi</p>
-      <button (click)="logout()" class="btn-logout">Déconnexion</button>
+      <div class="user-info">
+        <strong class="user-name">{{ userName }}</strong>
+        <span class="user-role">Développeur Full-Stack</span>
+      </div>
+      <button (click)="logout()" class="btn-logout" title="Se déconnecter" aria-label="Déconnexion">
+        <i class="icon" aria-hidden="true">🚪</i>
+      </button>
     </div>
   </aside>
 
+  <!-- Contenu principal -->
   <main class="main-content">
     <header class="top-bar">
-      <h3>Tableau de Bord</h3>
-      <div class="status-badge">Serveur: <span class="online">En ligne</span></div>
-    </header>
-
-    <div class="content-grid">
-      <div class="stat-card">
-        <h4>Alertes du jour</h4>
-        <div class="value">12</div>
+      <div class="header-left">
+        <h3 class="page-title">Tableau de Bord</h3>
+        <p class="subtitle">Gestion des flux en temps réel</p>
       </div>
-
-      <div class="feed-card">
-        <h4>Flux de notifications en temps réel</h4>
-        <div class="notification-list">
-          <div class="notif-item unread">
-            <div class="notif-icon">⚠️</div>
-            <div class="notif-text">
-              <p>Nouvelle tentative de connexion suspecte</p>
-              <span>Il y a 5 min</span>
-            </div>
-          </div>
+      
+      <div class="header-right">
+        <div class="status-badge" [attr.aria-label]="'Serveur en ligne'">
+          <span class="indicator online"></span>
+          <span class="status-text">Serveur: <strong>En ligne</strong></span>
         </div>
       </div>
+    </header>
+
+    <div class="content-area">
+      <!-- Zone d'affichage des sous-composants -->
+      <router-outlet></router-outlet>
+
+      <!-- Vue d'ensemble (uniquement sur la route /dashboard) -->
+      @if (router.url === '/dashboard') {
+        <section class="overview-section" aria-labelledby="overview-title">
+          <h4 id="overview-title" class="section-title">Aperçu de l'activité</h4>
+          
+          <div class="content-grid">
+            <!-- Carte 1: Compteur de notifications -->
+            <article class="stat-card">
+              <div class="stat-header">
+                <h4>Alertes du jour</h4>
+                <span class="icon-mini" aria-hidden="true">📅</span>
+              </div>
+              <!-- Le chiffre s'incrémente en temps réel avec ta simulation -->
+              <div class="stat-value">{{ notifications().length }}</div>
+              <p class="stat-footer">Total des messages reçus</p>
+            </article>
+
+            <!-- Carte 2: Graphique d'activité visuel -->
+            <article class="stat-card chart-card">
+              <div class="stat-header">
+                <h4>Flux WebSocket</h4>
+                <span class="icon-mini" aria-hidden="true">📈</span>
+              </div>
+              
+              <div class="visual-chart" aria-hidden="true">
+                <div class="bar-container">
+                  <!-- Génération de barres dynamiques basées sur les données -->
+                  @for (bar of [0, 1, 2, 3, 4, 5, 6]; track $index) {
+                    <div class="bar" 
+                         [style.height.%]="getSimulatedHeight($index)"
+                         [title]="'Activité segment ' + ($index + 1)">
+                    </div>
+                  }
+                </div>
+              </div>
+              
+              <p class="chart-legend">Simulation de charge active</p>
+            </article>
+          </div>
+        </section>
+      }
     </div>
   </main>
 </div>

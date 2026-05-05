@@ -1,0 +1,46 @@
+<div class="notifications-dashboard">
+  <!-- En-tête avec statistiques en temps réel -->
+  <div class="section-header">
+    <div class="header-left">
+      <h3>Flux en direct</h3>
+      <span class="badge-count">{{ notifications().length }} alertes actives</span>
+    </div>
+    
+    @if (notifications().length > 0) {
+      <button (click)="clearAll()" class="btn-clear-all">
+        Tout effacer
+      </button>
+    }
+  </div>
+
+  <!-- Zone scrollable pour gérer les rafales (burst) de trafic -->
+  <div class="notifications-scroll-wrapper">
+    @for (notif of notifications(); track (notif._id || notif.id || $index)) {
+      <div class="notification-card" [class.unread]="!notif.read">
+        <div class="card-body">
+          <div class="card-main">
+            <p class="message">{{ notif.message }}</p>
+            <div class="meta">
+              <span class="timestamp">
+                {{ (notif.createdAt || notif.timestamp) | date:'HH:mm:ss' }}
+              </span>
+              <span class="channel-tag">{{ notif.channel || 'websocket' }}</span>
+            </div>
+          </div>
+          
+          <div class="card-actions">
+            <button class="btn-mark-read" (click)="markAsRead(notif._id || notif.id)">
+              Marquer comme lu
+            </button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="icon">🔔</div>
+        <p>Aucune notification active pour le moment.</p>
+        <span>Le système est en attente de nouveaux événements...</span>
+      </div>
+    }
+  </div>
+</div>

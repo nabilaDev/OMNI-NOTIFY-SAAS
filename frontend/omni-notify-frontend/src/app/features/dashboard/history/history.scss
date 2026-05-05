@@ -1,0 +1,151 @@
+.history-page {
+  padding: 2rem;
+  background-color: #f9fafb;
+  min-height: 100%;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h4 {
+      font-size: 1.25rem;
+      color: #1a202c;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .btn-refresh {
+      background-color: #fff;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      color: #4a5568;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: #edf2f7;
+        border-color: #cbd5e0;
+      }
+    }
+  }
+
+  .filter-bar {
+    margin-bottom: 1.5rem;
+    
+    .search-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #3182ce;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+      }
+    }
+  }
+
+  .history-table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden; // Pour les coins arrondis
+    border: 1px solid #e2e8f0;
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+
+      thead {
+        background-color: #f8fafc;
+        border-bottom: 2px solid #edf2f7;
+
+        th {
+          padding: 1rem;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+          color: #718096;
+          font-weight: 700;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #edf2f7;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #f7fafc;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+
+        td {
+          padding: 1rem;
+          font-size: 0.9rem;
+          color: #2d3748;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  // Styles des badges de Statut
+  .status-read {
+    color: #2f855a;
+    background-color: #f0fff4;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .status-unread {
+    color: #c53030;
+    background-color: #fff5f5;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  // Styles des badges de Priorité (si présents)
+  .badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: #edf2f7;
+    font-size: 0.75rem;
+    
+    &.high {
+      background: #fed7d7;
+      color: #9b2c2c;
+    }
+  }
+
+  .empty-row {
+    text-align: center;
+    padding: 3rem !important;
+    color: #a0aec0;
+    font-style: italic;
+  }
+
+  .loader {
+    text-align: center;
+    padding: 3rem;
+    color: #4a5568;
+    font-weight: 500;
+  }
+}

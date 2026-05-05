@@ -1,0 +1,36 @@
+.settings-page {
+  padding: 20px;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.info-group {
+  margin-bottom: 15px;
+}
+
+.info-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.badge-active {
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
